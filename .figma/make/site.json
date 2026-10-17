@@ -1,0 +1,11 @@
+{
+  "description": "Cultural context for the shows you watch and the conversations you have with family, explained in the language you grew up hearing.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  },
+  "title": "In On It"
+}
