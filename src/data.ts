@@ -156,3 +156,151 @@ export const homeContent: Partial<Record<LangCode, HomeContent>> = {
     ],
   },
 }
+
+export type Line = { who: string; text: string; romanization?: string; cue?: boolean }
+
+export type Scene = {
+  source: string
+  lines: Line[]
+  whisper: { text: string; romanization?: string; english: string }
+  reply?: { text: string; romanization?: string; english: string }
+  saved: { phrase: string; meaning: string }
+}
+
+/** Example moments from the user-journey framework, one per mode. */
+export const scenes: Partial<Record<LangCode, Record<'watch' | 'talk', Scene>>> = {
+  zh: {
+    watch: {
+      source: 'Lunar New Year gala · YouTube',
+      lines: [
+        { who: 'Host', text: '新年快乐！大家看，我们家的福……', romanization: 'Xīnnián kuàilè! Dàjiā kàn, wǒmen jiā de fú…' },
+        { who: 'Host', text: '[flips the 福 banner upside down]' },
+        { who: 'Audience', text: '[laughter]' },
+        { who: 'Dad', text: '哈哈，福到了！', romanization: 'Hāhā, fú dào le!', cue: true },
+      ],
+      whisper: {
+        text: '福倒过来贴，因为“倒”和“到”听起来一样。意思是：福到了！',
+        romanization: 'Fú dào guòlái tiē, yīnwèi “dào” hé “dào” tīng qǐlái yíyàng. Yìsi shì: fú dào le!',
+        english: 'It’s hung upside down because “upside down” sounds like “arrived.” It means: luck has arrived!',
+      },
+      saved: { phrase: '福到了', meaning: 'Luck has arrived' },
+    },
+    talk: {
+      source: 'New Year dinner · 大伯’s house',
+      lines: [
+        { who: '阿嬤', text: '来来来，多吃一点。', romanization: 'Lái lái lái, duō chī yìdiǎn.' },
+        { who: 'You', text: '[reach for the last piece of fish]' },
+        { who: '大伯', text: '别吃完！年年有余！', romanization: 'Bié chī wán! Nián nián yǒu yú!', cue: true },
+        { who: 'Everyone', text: '[laughter]' },
+      ],
+      whisper: {
+        text: '“鱼”和“余”听起来一样。年年有余，就是每年都有多的。所以鱼不要吃完。',
+        romanization: '“Yú” hé “yú” tīng qǐlái yíyàng. Nián nián yǒu yú, jiùshì měi nián dōu yǒu duō de. Suǒyǐ yú bú yào chī wán.',
+        english: '“Fish” sounds like “surplus.” “Surplus every year” means always having extra, so you leave some fish.',
+      },
+      reply: { text: '好，年年有余！', romanization: 'Hǎo, nián nián yǒu yú!', english: 'Okay, surplus every year!' },
+      saved: { phrase: '年年有余', meaning: 'Leave some fish, for plenty every year' },
+    },
+  },
+  es: {
+    watch: {
+      source: 'Comedy special · YouTube',
+      lines: [
+        { who: 'Comedian', text: 'Y mi mamá me dice: “¿Otra vez sin suéter?”' },
+        { who: 'Comedian', text: '¡No manches, hace treinta grados!', cue: true },
+        { who: 'Audience', text: '[laughter]' },
+      ],
+      whisper: {
+        text: '“No manches” quiere decir “¡no puede ser!”. Es muy mexicano. Se usa con amigos y familia.',
+        english: '“No manches” means “no way!” It’s very Mexican and used with friends and family.',
+      },
+      saved: { phrase: 'No manches', meaning: 'No way! (Mexican, casual)' },
+    },
+    talk: {
+      source: 'Sunday dinner · Abuela’s house',
+      lines: [
+        { who: 'Abuela', text: '¿Y tu primo? ¿Ya se fue?' },
+        { who: 'Tío', text: '¡Ese ya se acostó con las gallinas!', cue: true },
+        { who: 'Everyone', text: '[laughter]' },
+      ],
+      whisper: {
+        text: '“Acostarse con las gallinas” es irse a dormir muy temprano, como las gallinas.',
+        english: '“Going to bed with the chickens” means going to bed really early.',
+      },
+      reply: { text: '¡Yo también me acuesto con las gallinas!', english: 'I go to bed with the chickens too!' },
+      saved: { phrase: 'Acostarse con las gallinas', meaning: 'Going to bed very early' },
+    },
+  },
+}
+
+export type Lesson = {
+  glyph: string
+  kicker: string
+  title: string
+  blurb: string
+  meta: string
+  tag: string
+  slides: { heading: string; body: string }[]
+  check: QuizItem
+  upNext: { title: string; meta: string }[]
+}
+
+export const lessons: Partial<Record<LangCode, Lesson>> = {
+  zh: {
+    glyph: '吃',
+    kicker: 'Everyday connection',
+    title: 'When “Have you eaten?” isn’t about food',
+    blurb: 'Learn how a practical question became a familiar way to show care.',
+    meta: 'Today · 5 minutes',
+    tag: 'Culture + tone',
+    slides: [
+      { heading: '你吃饭了吗？', body: 'Literally “Have you eaten?” You’ll hear it at the door, on the phone, and at the start of almost every visit.' },
+      { heading: 'Why food?', body: 'For generations, having enough to eat was a real worry. Asking about food became a way of asking “Are you okay?”' },
+      { heading: 'How to answer', body: 'Keep it short: 吃了 (chī le, “I ate”) or 还没 (hái méi, “not yet”). Nobody expects the menu.' },
+      { heading: 'Try it this week', body: 'When 阿嬤 asks, answer “吃了！你呢？” (“I ate! And you?”). Asking back shows you care too.' },
+    ],
+    check: {
+      prompt: '你吃了吗？',
+      romanization: 'Nǐ chī le ma?',
+      context: 'In a casual encounter, what are they most likely communicating?',
+      options: ['They want a detailed answer about my meal', 'They’re showing care and making friendly conversation', 'They’re inviting me to a restaurant'],
+      answer: 1,
+      explanation: 'It’s a caring hello. A short “吃了” is the perfect answer.',
+    },
+    upNext: [
+      { title: 'Softening requests with 一下', meta: 'Language · 4 min' },
+      { title: 'Reading “客气” in context', meta: 'Culture · 6 min' },
+      { title: 'Why the fish never gets finished', meta: 'Culture · 3 min' },
+    ],
+  },
+  es: {
+    glyph: '¿',
+    kicker: 'Everyday connection',
+    title: 'Why nobody leaves the table',
+    blurb: 'Sobremesa, and why the talk after dinner matters as much as the food.',
+    meta: 'Today · 5 minutes',
+    tag: 'Culture + tone',
+    slides: [
+      { heading: 'Sobremesa', body: 'The time spent talking at the table after a meal. There’s no English word for it.' },
+      { heading: 'Why it matters', body: 'Getting up right away can feel rude. Staying says “I’m happy to be here with you.”' },
+      { heading: 'What people say', body: '“¿Un cafecito?” is often an invitation to stay longer, not just an offer of coffee.' },
+      { heading: 'Try it this week', body: 'Stay ten minutes after dinner and ask Abuela a question. That’s sobremesa.' },
+    ],
+    check: {
+      prompt: '¿Mande?',
+      context: 'Your grandmother says this after you call her name. What does she mean?',
+      options: ['Send it to me', 'Yes? What did you say?', 'Who is in charge here?'],
+      answer: 1,
+      explanation: 'A polite Mexican “yes?” or “pardon?” when someone calls you.',
+    },
+    upNext: [
+      { title: 'Softening requests with “¿me pasas…?”', meta: 'Language · 4 min' },
+      { title: 'Why everything is -ito', meta: 'Culture · 5 min' },
+    ],
+  },
+}
+
+export const testWhisper: Partial<Record<LangCode, string>> = {
+  zh: '你好！我是你的小帮手。听不懂的时候，点两下就好。',
+  es: '¡Hola! Soy tu ayudante. Cuando no entiendas algo, toca dos veces.',
+}
